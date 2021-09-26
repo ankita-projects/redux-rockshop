@@ -1,0 +1,53 @@
+$color_white: white;
+@mixin flexbox
+ {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html{
+    font-size: 62.5;
+
+}
+.box{
+    height:100vh;
+    @include flexbox;
+}
+.card{
+    font-family: sans-serif;
+    font-weight: bold;
+    height: 45rem;
+    width: 35rem;
+    margin: 1rem;
+    position: relative;
+    cursor: pointer;
+
+    &:hover img{
+        transform: scale(1.1);
+    }
+    
+    &img{
+        width: 100%;
+        position: absolute;
+
+    }
+    & .card-title{
+        text-align: center;
+        position: relative;
+        color: $color_white;
+        letter-spacing: 0.05rem;
+    }
+    & .card-content{
+        font-size: 2rem;
+        padding: 1.8rem 5rem;
+    }
+    & span {
+        font-size: 2rem;
+    }
+}
