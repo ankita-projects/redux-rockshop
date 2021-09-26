@@ -1,0 +1,27 @@
+*,
+*::after,
+*::before{
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+html{
+    font-size: 62.5%;
+}
+body{
+    box-sizing: border-box;
+}
+.footer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 1rem;
+    background-color: #ee9d9d;
+    text-align: center;
+    color: rgb(17, 15, 15);
+   
+  }
+
+  

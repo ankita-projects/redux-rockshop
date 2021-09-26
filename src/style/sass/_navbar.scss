@@ -1,0 +1,33 @@
+.navbar{
+    background-color:rgb(247, 166, 166) ;
+    padding: 2rem 4rem;
+    height: 8rem;
+    box-shadow: 0 0.2rem 0.4rem rgba(0,0,0,0.4);
+    font-size: 20px;
+    
+
+&__list{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+    height: 100%;
+    padding: 0 4rem;
+
+    &__item{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  
+    }
+}
+
+ &__link{
+     color: black;
+     text-decoration: none;
+     &:hover {
+         color: chocolate;
+     }
+ }
+ 
+}
