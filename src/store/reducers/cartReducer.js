@@ -1,26 +1,67 @@
-import React from 'react';
-import item1 from "../../images/item1.jpg";
-import item2 from "../../images/item2.jpg";
-import item3 from "../../images/item3.jpg";
-import item4 from "../../images/item4.jpg";
+import * as actionTypes from "../actions/cartactions";
+import { reducer, itemsToArray } from "../../utils";
+const DEFAULT_STATE = { items: {}, totalPrice: 0, totalQuantity: 0 };
+const cartReducer = (state = DEFAULT_STATE, action) => {
+  let existingItem;
+  let itemsArray = [];
 
-
-const initState = {
-    items: [
-        {id:1,title:'Winter body', desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, ex.", price:110,img:item1},
-        {id:2,title:'Adidas', desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, ex.", price:80,img: item2},
-        {id:3,title:'Vans', desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, ex.",price:120,img: item3},
-        {id:4,title:'White', desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, ex.", price:260,img:item4}
-    ],
-    addedItems:[],
-    total: 0
-
-}
-const cartReducer = (state = initState,action) => {
-
-
-    return state;
-}
+  switch (action.type) {
+    case actionTypes.INIT_CART:
+      return action.data;
+    case actionTypes.ADD_PRODUCT:
+      existingItem = state.items[action.data.id];
+      if (!existingItem && action.data.quantity) {
+        existingItem = state.items[action.data.id] = {
+          ...action.data,
+          cartQuantity: 1,
+        };
+      } else {
+        if (existingItem.cartQuantity === action.data.quantity) {
+          existingItem.cartQuantity = action.data.quantity;
+        } else {
+          existingItem.cartQuantity++;
+        }
+      }
+      itemsArray = itemsToArray(state.items);
+      state.totalPrice = itemsArray
+        .map((item) => item.price * item.cartQuantity)
+        .reduce(reducer);
+      state.totalQuantity = itemsArray
+        .map((item) => item.cartQuantity)
+        .reduce(reducer);
+      return Object.assign({}, state, {
+        items: {
+          ...state.items,
+          [existingItem.id]: existingItem,
+        },
+      });
+    
+    case actionTypes.REMOVE_PRODUCT:
+      const newState = delete state.items[action.data];
+      itemsArray = itemsToArray(state.items);
+      if (itemsArray.length) {
+        state.totalPrice = itemsArray
+          .map((item) => item.price * item.cartQuantity)
+          .reduce(reducer);
+        state.totalQuantity = itemsArray
+          .map((item) => item.cartQuantity)
+          .reduce(reducer);
+        return Object.assign({}, state, {
+          ...state,
+          newState,
+        });
+      } else {
+        return {
+          ...state,
+          items: {},
+          totalPrice: 0,
+          totalQuantity: 0,
+        };
+      }
+    default:
+      return state;
+  } //end of switch
+}; //end of cartReducer;
 
 export default cartReducer;
 

@@ -1,35 +1,29 @@
 import React from "react";
-import { BrowserRouter, Link} from "react-router-dom";
+import { NavLink  } from "react-router-dom";
 import { AddShoppingCart } from "@material-ui/icons";
+import logo from "../images/logo.jpg";
 
 const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="container">
-     
         <ul className="navbar__list">
-        <BrowserRouter>
-          <Link  className="navbar__logo" to="/">
-            Shopping
-          </Link>
-        </BrowserRouter>
-          <BrowserRouter>
-            <li className= "navbar__list__item">
-              <Link to="/">Home</Link>
+            <NavLink  className="navbar__logo" to="/">
+              <img className="logo" src={logo} alt="logo" />
+            </NavLink >
+            <li className="navbar__list__item">
+              <NavLink to="/">Home</NavLink>
             </li>
-          </BrowserRouter>
-          <BrowserRouter>
-          <li>
-            <Link to="/product">Products</Link>
-          </li>
-          </BrowserRouter>
-          <BrowserRouter>
-          <li>
-            <Link to="/cart">
-              <i className="material-icons"><AddShoppingCart /></i>
-            </Link>
-          </li>
-          </BrowserRouter>
+            <li>
+              <NavLink to="/product">Product</NavLink>
+            </li>
+            <li>
+              <NavLink to="/cart">
+                <i className="material-icons">
+                  <AddShoppingCart />
+                </i>
+              </NavLink>
+            </li>
         </ul>
       </div>
     </nav>
