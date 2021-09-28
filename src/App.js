@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import './App.scss'
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Layout from "./hocs/Layout";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
@@ -21,11 +21,11 @@ function App() {
  return (
   <Router>
       <Navbar/>
-    <Layout>
+    <Switch>
       <Route exact path="/" component = {Home} />
       <Route exact path="/product" component = {Product} />
       <Route exact path="/cart" component = {Cart} />
-    </Layout>
+      </Switch>
     <Footer/>
   </Router>
  );

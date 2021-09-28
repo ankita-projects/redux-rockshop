@@ -6,18 +6,19 @@ export const INIT_CART = "INIT_CART";
 
 export const addProduct = (product) => {
   return (dispatch) => {
+    product.quantity = 1
     dispatch({
       type: ADD_PRODUCT,
-      data: product,
+      data: product
     });
   };
 };
 
-export const removeProduct = (productid) => {
+export const removeProduct = (product) => {
   return (dispatch) => {
     dispatch({
       type: REMOVE_PRODUCT,
-      data: productid,
+      data: product,
     });
   };
 };

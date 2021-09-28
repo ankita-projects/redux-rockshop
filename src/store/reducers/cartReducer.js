@@ -1,59 +1,52 @@
-import * as actionTypes from "../actions/cartactions";
-import { reducer, itemsToArray } from "../../utils";
-const DEFAULT_STATE = { items: {}, totalPrice: 0, totalQuantity: 0 };
+import * as actionTypes from "../actions/cartActions";
+import { reducer } from "../../utils/utils";
+const DEFAULT_STATE = { items: [], totalPrice: 0, totalQuantity: 0 };
 const cartReducer = (state = DEFAULT_STATE, action) => {
   let existingItem;
-  let itemsArray = [];
-
   switch (action.type) {
     case actionTypes.INIT_CART:
       return action.data;
     case actionTypes.ADD_PRODUCT:
-      existingItem = state.items[action.data.id];
-      if (!existingItem && action.data.quantity) {
-        existingItem = state.items[action.data.id] = {
-          ...action.data,
-          cartQuantity: 1,
-        };
+      existingItem = state.items.filter((item) => item.id === action.data.id);
+      console.log(existingItem);
+      if (existingItem.length === 0) {
+        let newItem = action.data;
+        newItem.quantity = 1;
+        state.items.push(newItem);
       } else {
-        if (existingItem.cartQuantity === action.data.quantity) {
-          existingItem.cartQuantity = action.data.quantity;
-        } else {
-          existingItem.cartQuantity++;
-        }
+        console.log("Existing Item Quanitity "+ existingItem[0].quantity)
+        existingItem[0].quantity++;
+        console.log( "Updated Item Quanitity "+existingItem[0].quantity)
       }
-      itemsArray = itemsToArray(state.items);
-      state.totalPrice = itemsArray
+      state.totalPrice = state.items
         .map((item) => item.price * item.cartQuantity)
         .reduce(reducer);
-      state.totalQuantity = itemsArray
+      state.totalQuantity = state.items
         .map((item) => item.cartQuantity)
         .reduce(reducer);
+      console.log(state.items);
       return Object.assign({}, state, {
-        items: {
-          ...state.items,
-          [existingItem.id]: existingItem,
-        },
+        items: state.items,
       });
-    
+
     case actionTypes.REMOVE_PRODUCT:
-      const newState = delete state.items[action.data];
-      itemsArray = itemsToArray(state.items);
-      if (itemsArray.length) {
-        state.totalPrice = itemsArray
+      const filteredItemList = state.items.filter(
+        (item) => item.id != action.data
+      );
+      if (filteredItemList.length) {
+        state.totalPrice = filteredItemList
           .map((item) => item.price * item.cartQuantity)
           .reduce(reducer);
-        state.totalQuantity = itemsArray
+        state.totalQuantity = filteredItemList
           .map((item) => item.cartQuantity)
           .reduce(reducer);
         return Object.assign({}, state, {
           ...state,
-          newState,
         });
       } else {
         return {
           ...state,
-          items: {},
+          items: [],
           totalPrice: 0,
           totalQuantity: 0,
         };
@@ -64,4 +57,3 @@ const cartReducer = (state = DEFAULT_STATE, action) => {
 }; //end of cartReducer;
 
 export default cartReducer;
-

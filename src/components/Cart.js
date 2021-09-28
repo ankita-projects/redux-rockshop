@@ -1,65 +1,53 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { arrow_drop_up } from "@material-ui/icons";
-import { arrow_drop_down } from "@material-ui/icons";
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import {removeProduct} from "../store/actions/cartActions";
+import { itemsToArray } from "../utils/utils";
 
-class Cart extends Component {
-  render() {
-    let addedItems = this.props.items.length ? (
-      this.props.items.map((item) => {
-        return (
-          <li className="collection-item avatar" key={item.id}>
-            <div className="item-img">
-              <img src={item.img} alt={item.img} className="" />
-            </div>
+const Cart = () =>{
+  
+  const cart = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
 
-            <div className="item-desc">
-              <span className="title">{item.title}</span>
-              <p>{item.desc}</p>
+  return(
+    <div>
+    <div>
+      {cart.items.length > 0 ? (
+        <div>
+          {cart.items.map((item) => (
+            <li key={item.id}>
+              <p>{item.title}</p>
               <p>
-                <b>Price: {item.price}$</b>
+                {item.quantity} × {item.price}€ = {item.quantity * item.price}€
               </p>
-              <p>
-                <b>Quantity: {item.quantity}</b>
-              </p>
-              <div className="add-remove">
-                <Link to="/cart">
-                  <i className="material-icons">
-                    <arrow_drop_up />
-                  </i>
-                </Link>
-                <Link to="/cart">
-                  <i className="material-icons">
-                    <arrow_drop_down />
-                  </i>
-                </Link>
-              </div>
-              <button className="waves-effect waves-light btn pink remove">
-                Remove
+              <button onClick={() => dispatch(removeProduct(item))}>
+                Remove From Cart
               </button>
-            </div>
-          </li>
-        );
-      })
-    ) : (
-      <p>Nothing.</p>
-    );
-    return (
-      <div className="container">
-        <div className="cart">
-          <h5>You have ordered:</h5>
-          <ul className="collection">{addedItems}</ul>
+            </li>
+          ))}
+          <p>
+            Total products:
+            {cart.items
+              .map((item) => item.quantity)
+              .reduce((item, quantity) => item + quantity, 0)}
+          </p>
+          <p>
+            Total amount:
+            {cart.items
+              .map((item) => item.price * item.quantity)
+              .reduce((item, price) => item + price, 0)}
+          </p>
+          <button>Checkout</button>
         </div>
-      </div>
-    );
-  }
-}
+      ) : (
+        <h2>Your cart is empty</h2>
+      )}
+    </div>
+  </div>
+  );
 
-const mapStateToProps = (state) => {
-  return {
-    items: state.addedItems,
-  };
 };
+
+
+
 
 export default Cart;
