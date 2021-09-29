@@ -1,4 +1,4 @@
-$color_white: white;
+/*$color_white: white;
 @mixin flexbox {
   display: flex;
   justify-content: space-around;
@@ -12,23 +12,25 @@ $color_white: white;
 html {
   font-size: 62.5;
 }
-.box {
-  height: 60vh;
-  @include flexbox;
-}
-.card {
+.card-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 1rem;
   margin-left: 9rem;
+}
+.card {
+  width: 150px;
+    height: 170px;
 
-   &:hover img {
+  &:hover img {
     transform: scale(1.1);
   }
 
-  &image {
-    width: 250px;
-    height: 250px;
+  &img {
+   
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
   }
   & .card-title {
     text-align: center;
@@ -43,4 +45,29 @@ html {
   & span {
     font-size: 2rem;
   }
+}*/
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
+body{
+  background: rgb(176, 102, 179);
+}
+img {
+  width: 250px;
+  height: 250px;
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 1rem;
+  margin-left: 9rem;
+
+}
+.card{
+  background-color: rgb(252, 238, 220);
+}
+
